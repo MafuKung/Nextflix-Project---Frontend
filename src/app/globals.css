@@ -1,0 +1,85 @@
+@import "tailwindcss";
+
+
+:root {
+  --color-accent: #E50914;         /* Netflix แดง */
+  --color-text: #ffffff;           /* ตัวอักษรหลัก */
+  --color-bg: #141414;             /* พื้นหลัง */
+  --color-card: #181818;           /* กล่องหนัง */
+  --color-subtext: #b3b3b3;        /* สีข้อความรอง */
+}
+
+body {
+  background-color: var(--color-bg);
+  color: var(--color-text);
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.4;
+}
+
+@layer components {
+  .search-wrapper {
+    @apply relative max-w-md mx-auto;
+  }
+  .search-icon {
+    @apply absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-[var(--color-subtext)];
+  }
+  .search-input {
+    @apply w-full pl-10 pr-4 py-2 rounded-[0.5rem]
+           bg-[var(--color-card)] text-[var(--color-text)]
+           placeholder:text-[var(--color-subtext)]
+           focus:outline-none focus:ring-2 focus:ring-[var(--color-accent)];
+  }
+  
+  .navbar { @apply fixed top-0 inset-x-0 z-50 flex items-center justify-between px-6 py-4 transition-colors duration-300 ease-in-out; }
+  .navbar-transparent { @apply bg-transparent; }
+  .navbar-solid       { @apply bg-[var(--color-bg)]/80 backdrop-blur-md border-b border-[rgba(255,255,255,0.1)]; }
+  .navbar-logo        { @apply text-2xl font-bold text-[var(--color-accent)]; }
+  .navbar-links       { @apply hidden md:flex items-center space-x-8 text-[var(--color-text)]; }
+  .navbar-links .nav-link {
+    @apply relative uppercase text-sm hover:text-[var(--color-accent)] transition-colors;
+  }
+  .navbar-links .nav-link::after {
+    content: '';
+    @apply absolute left-0 bottom-0 h-[2px] bg-[var(--color-accent)] w-0 transition-[width] duration-200 ease-in-out;
+  }
+  .navbar-links .nav-link:hover::after { @apply w-full; }
+  .navbar-icons       { @apply flex items-center space-x-6 text-[var(--color-text)]; }
+  .navbar-icons .icon-btn { @apply cursor-pointer hover:text-[var(--color-accent)] transition-colors; }
+
+  
+  .detail-wrapper { @apply px-6 py-8 max-w-5xl mx-auto; }
+  .detail-header  { @apply flex flex-wrap gap-6; }
+  .detail-poster  { @apply w-full sm:w-1/3 rounded-[0.5rem] overflow-hidden; }
+  .detail-info    { @apply flex-1; }
+  .detail-title   { @apply text-4xl font-bold text-[var(--color-text)]; }
+  .detail-overview{ @apply mt-4 text-[var(--color-text)] leading-relaxed; }
+  .detail-actions { @apply mt-6 flex gap-4; }
+  .detail-btn     { @apply flex items-center gap-2 rounded px-6 py-2 font-semibold; }
+  .detail-btn-primary   { @apply bg-[var(--color-accent)] text-black; }
+  .detail-btn-secondary { @apply border border-[var(--color-text)] text-[var(--color-text)]; }
+
+}
+
+/* utility เสริม */
+@layer utilities {
+  .scrollbar-hide::-webkit-scrollbar { display: none; }
+  .scrollbar-hide { -ms-overflow-style: none; scrollbar-width: none; }
+
+  .hero-fade {
+    @apply absolute inset-0 bg-gradient-to-t
+      from-[rgba(20,20,20,1)]
+      via-[rgba(20,20,20,0.6)]
+      to-transparent;
+  }
+  .hero-fade-top {
+    @apply absolute top-0 inset-x-0 h-24
+           bg-gradient-to-b
+           from-[rgba(20,20,20,0.8)]
+           to-transparent
+           pointer-events-none;
+  }
+
+
+
+}
+

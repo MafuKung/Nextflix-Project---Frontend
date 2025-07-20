@@ -1,0 +1,14 @@
+{
+  "results": [
+    { "id": 1, "title": "Test Movie 1", "poster_path": null },
+    { "id": 2, "title": "Test Movie 2", "poster_path": null },
+    { "id": 3, "title": "Test Movie 3", "poster_path": null },
+    { "id": 4, "title": "Test Movie 4", "poster_path": null },
+    { "id": 5, "title": "Test Movie 5", "poster_path": null },
+    { "id": 6, "title": "Test Movie 6", "poster_path": null },
+    { "id": 7, "title": "Test Movie 7", "poster_path": null },
+    { "id": 8, "title": "Test Movie 8", "poster_path": null },
+    { "id": 9, "title": "Test Movie 9", "poster_path": null },
+    { "id": 10, "title": "Test Movie 10", "poster_path": null }
+  ]
+}
