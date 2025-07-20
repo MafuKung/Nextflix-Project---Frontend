@@ -11,8 +11,18 @@ interface SectionRowProps {
   queryKey: string
 }
 
+interface MoviePreview {
+  id: number
+  title: string
+  poster_path?: string
+}
+
+interface SectionRowResponse {
+  results: MoviePreview[]
+}
+
 export default function SectionRow({ title, queryKey, endpoint }: SectionRowProps) {
-  const { data, isLoading, error, refetch } = useQuery({
+  const { data, isLoading, error, refetch } = useQuery<SectionRowResponse, Error>({
     queryKey: ['movies', queryKey],
     queryFn: () =>
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${endpoint}`)
@@ -83,7 +93,7 @@ export default function SectionRow({ title, queryKey, endpoint }: SectionRowProp
             ref={rowRef}
             className="flex space-x-4 overflow-x-auto scroll-smooth scrollbar-hide px-6"
           >
-            {data.results.map((movie: any) => (
+            {data.results.map(movie => (
               <CardPoster key={movie.id} movie={movie} />
             ))}
           </ul>

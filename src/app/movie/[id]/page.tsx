@@ -9,24 +9,57 @@ import Modal from 'react-modal'
 
 Modal.setAppElement('body')
 
+interface Genre {
+  id: number
+  name: string
+}
+
+interface MovieDetail {
+  id: number
+  title: string
+  overview: string
+  runtime: number
+  genres: Genre[]
+  release_date: string
+  backdrop_path?: string
+  poster_path?: string
+}
+
+interface Video {
+  id: string
+  key: string
+  name: string
+  site: string
+  type: string
+}
+
+interface VideoResponse {
+  results: Video[]
+}
+
 export default function MovieDetailPage() {
   const { id } = useParams()
   const [isOpen, setIsOpen] = useState(false)
 
-  const { data, isLoading, error } = useQuery({
+  const { data, isLoading, error } = useQuery<MovieDetail, Error>({
     queryKey: ['movie', id],
     queryFn: () =>
       fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${id}`)
-        .then(res => res.json()),
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch movie')
+          return res.json()
+        }),
     enabled: !!id,
   })
 
-  const { data: vids } = useQuery({
+  const { data: vids } = useQuery<VideoResponse, Error>({
     queryKey: ['videos', id],
     queryFn: () =>
-      fetch(
-        `${process.env.NEXT_PUBLIC_API_URL}/movies/${id}/videos`
-      ).then((res) => res.json()),
+      fetch(`${process.env.NEXT_PUBLIC_API_URL}/movies/${id}/videos`)
+        .then(res => {
+          if (!res.ok) throw new Error('Failed to fetch videos')
+          return res.json()
+        }),
     enabled: isOpen && !!id,
   })
 
@@ -34,7 +67,7 @@ export default function MovieDetailPage() {
   if (error || !data) return <p>Error loading movie.</p>
 
   const trailer = vids?.results.find(
-    (v: any) => v.type === 'Trailer' && v.site === 'YouTube'
+    v => v.type === 'Trailer' && v.site === 'YouTube'
   )
 
   const backdropUrl = data.backdrop_path
@@ -84,7 +117,7 @@ export default function MovieDetailPage() {
             <h1 className="text-4xl font-extrabold">{data.title}</h1>
             <p className="text-sm text-gray-300">
               {releaseDate} • {data.runtime} min •{' '}
-              {data.genres.map((g: any) => g.name).join(', ')}
+              {data.genres.map(g => g.name).join(', ')}
             </p>
             <p className="text-base leading-relaxed">{data.overview}</p>
 
